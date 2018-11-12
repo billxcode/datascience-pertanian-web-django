@@ -1,0 +1,199 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<title>Home Page</title>
+{% load static %}
+<link rel="stylesheet" href="{% static 'node_modules/bulma/css/bulma.min.css' %}">
+<link rel="stylesheet" href="{% static 'node_modules/bulma-carousel/dist/css/bulma-carousel.min.css' %}"
+</head>
+<body>
+
+    <nav class="navbar" role="navigation" aria-label="main navigation">
+        <div class="navbar-brand">
+            <a class="navbar-item" href="/">
+                Analitic Pertanian
+            </a>
+    
+            <a role="button" class="navbar-burger burger" aria-label="menu" aria-expanded="false" data-target="navbarBasicExample">
+                <span aria-hidden="true"></span>
+                <span aria-hidden="true"></span>
+                <span aria-hidden="true"></span>
+            </a>
+        </div>
+    
+        <div id="navbarBasicExample" class="navbar-menu">
+            <div class="navbar-start">
+                <a href="/" class="navbar-item">
+                    Home
+                </a>
+    
+                <div class="navbar-item has-dropdown is-hoverable">
+                    <a class="navbar-link">
+                        More
+                    </a>
+    
+                    <div class="navbar-dropdown">
+                        <a href="#about" class="navbar-item">
+                            About
+                        </a>
+                        <a href="#team" class="navbar-item">
+                            Team
+                        </a>
+                        <a href="#address" class="navbar-item">
+                            Address
+                        </a>
+                        <hr class="navbar-divider">
+                        <a class="navbar-item">
+                            Report an issue
+                        </a>
+                    </div>
+                </div>
+            </div>
+    
+            <div class="navbar-end">
+                <div class="navbar-item">
+                    <div class="buttons">
+                        <a href="/admin/" class="button is-warning">
+                            Log in
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </nav>
+    <div class='carousel carousel-animated carousel-animate-slide'>
+        <div class='carousel-container'>
+            <div class='carousel-item has-background is-active'>
+                <img class="is-background" src="https://placeimg.com/800/200/animals" alt="" width="800"
+                    height="200" />
+                <div class="title">Merry Christmas</div>
+            </div>
+            <div class='carousel-item has-background'>
+                <img class="is-background" src="https://placeimg.com/800/200/animals" alt="" width="800" height="200" />
+                <div class="title">Original Gift: Offer a song with <a href="https://lasongbox.com" target="_blank">La Song
+                        Box</a></div>
+            </div>
+            <div class='carousel-item has-background'>
+                <img class="is-background" src="https://placeimg.com/800/200/animals" alt="" width="800" height="200" />
+                <div class="title">Sushi time</div>
+            </div>
+            <div class='carousel-item has-background'>
+                <img class="is-background" src="https://placeimg.com/800/200/animals" alt="" width="800" height="200" />
+                <div class="title">Life</div>
+            </div>
+        </div>
+        <div class="carousel-navigation is-overlay">
+            <div class="carousel-nav-left">
+                <i class="fa fa-chevron-left" aria-hidden="true"></i>
+            </div>
+            <div class="carousel-nav-right">
+                <i class="fa fa-chevron-right" aria-hidden="true"></i>
+            </div>
+        </div>
+    </div>
+
+    <section class="section" id="#about">
+        <div class="container">
+            <h1 class="title">About</h1>
+            <h2 class="subtitle">
+                A simple container to divide your page into <strong>sections</strong>, like the one you're currently
+                reading
+            </h2>
+        </div>
+    </section>
+    <section class="hero is-primary">
+        <div class="hero-body">
+            <div class="container">
+                <h1 class="title">
+                    Hero title
+                </h1>
+                <h2 class="subtitle">
+                    Hero subtitle
+                </h2>
+            </div>
+        </div>
+    </section>
+        <section class="section" id="#team">
+            <div class="container">
+                <h1 class="title">Team</h1>
+                <h2 class="subtitle">
+                    Here's our amazing team
+                    <div class="tile is-vertical is-12">
+                        <div class="tile">
+                            <div class="tile is-parent">
+                                <article class="tile is-child notification">
+                                    <p class="title">Bill</p>
+                                    <p class="subtitle">Mahasiswa</p>
+                                    <figure class="image">
+                                        <img src="https://placeimg.com/640/480/people"/>
+                                    </figure>
+                                </article>
+                            </div> 
+                            <div class="tile is-parent">
+                                <article class="tile is-child notification">
+                                    <p class="title">Bill</p>
+                                    <p class="subtitle">Mahasiswa</p>
+                                    <figure class="image">
+                                        <img src="https://placeimg.com/640/480/people"/>
+                                    </figure>
+                                </article>
+                            </div> 
+                            <div class="tile is-parent">
+                                <article class="tile is-child notification">
+                                    <p class="title">Bill</p>
+                                    <p class="subtitle">Mahasiswa</p>
+                                    <figure class="image">
+                                        <img src="https://placeimg.com/640/480/people"/>
+                                    </figure>
+                                </article>
+                            </div>
+                        </div> 
+                    </div> 
+                </h2>
+            </div>
+        </section>
+    <section class="hero is-warning" id="#address">
+        <div class="hero-body">
+            <div class="container">
+                <h1 class="title">Address</h1>
+                <div class="tile is-ancestor">
+                    <div class="tile is-vertical">
+                        <div class="tile">
+                            <div class="tile is-parent is-vertical">
+                                <article class="tile is-child notification is-warning">
+                                    <p><strong>Street : </strong>Jln Mertojoyo Blok K 12</p>
+                                    <p>Merjosari, Lowokwaru</p>
+                                    <p>Malang, Indonesia</p> 
+                                    <p><strong>Postal Code</strong> 65144</p>                                    
+                                </article>
+                            </div>
+                            <div class="tile is-parent">
+                                <article class="tile is-child notification ">
+                                    <figure class="image">
+                                        <img src="https://maps.googleapis.com/maps/api/staticmap?center=Malang,Indonesia&zoom=13&size=600x300&maptype=roadmap&markers=color:blue&key=AIzaSyBCeBmAFMOjkyxadn9NIWayXJXjGjvU_44">
+                                    </figure>
+                                </article>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <footer class="footer">
+        <div class="content has-text-centered">
+            <p>
+                <strong>Analitic Pertanian</strong> by <a href="https://jgthms.com">Bill Tanthowi Jauhari</a>. The source code is licensed
+                <a href="http://opensource.org/licenses/mit-license.php">MIT</a>. The website content
+                is licensed <a href="http://creativecommons.org/licenses/by-nc-sa/4.0/">CC BY NC SA 4.0</a>.
+            </p>
+        </div>
+    </footer>
+<script type="text/javascript" src="{% static 'node_modules/bulma-carousel/dist/js/bulma-carousel.min.js' %}"></script>
+<script type="text/javascript">
+    var carousels = bulmaCarousel.attach(); // carousels now contains an array of all Carousel instances
+</script>
+</body>
+</html>
