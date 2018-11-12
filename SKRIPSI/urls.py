@@ -18,6 +18,10 @@ from django.urls import path, include
 from django.contrib import admin
 from . import views
 
+admin.site.site_header = "Admin Pertanian"
+admin.site.site_title = "Welcome Admin"
+admin.site.index_title = "Dashboard Data Analytics Pertanian"
+
 urlpatterns = [
     url(r'^admin/', admin.site.urls),
     url('moora/', include('MOORA.urls')),
