@@ -18,7 +18,12 @@ def index(request):
     NORMAL = normalization(SQR, SUM)
     NORMAL_TERBOBOT = normalizationTerbobot(BOBOT, NORMAL)
     PREFERENSI = preferensi(NORMAL_TERBOBOT)
-    return render(request, 'graph/result.html', {'preferensi':PREFERENSI})
+    tanamans = Tanaman.objects.all()
+    context = {
+        'tanamans' : tanamans,
+        'preferensi' : list(PREFERENSI)
+    }
+    return render(request, 'graph/result.html', context)
 
 def kuadratElement():
     tanamans = Tanaman.objects.all()
