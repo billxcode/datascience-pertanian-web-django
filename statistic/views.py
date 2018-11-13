@@ -5,6 +5,7 @@ from django.shortcuts import render
 from rest_framework import serializers
 from django.http import HttpResponse, JsonResponse
 from MOORA.models import Kriteria, Bobot, Tanaman, NameKriteria
+from cmath import sqrt
 
 # Create your views here.
 
@@ -15,9 +16,14 @@ NORMAL_TERBOBOT = []
 BOBOT = []
 
 def index(request):
-    return render(request, 'graph/result.html')
+    if kuadratElement()==True:
+        if sumRow()==True:
+            if normalization()==True:
+                if normalizationTerbobot()==True:
+                    return HttpResponse(NORMAL_TERBOBOT)
+    return HttpResponse("failed")
 
-def kuadratElement(request):
+def kuadratElement():
     kriterias = Kriteria.objects.all()
     tanamans = Tanaman.objects.all()
     for t in tanamans:
@@ -27,7 +33,7 @@ def kuadratElement(request):
         SQR.append(HELPER)
     return True
 
-def sumRow(request):
+def sumRow():
     for s in SQR:
         helper = 0
         for e in s:
@@ -35,19 +41,20 @@ def sumRow(request):
         SUM.append(helper)
     return True
 
-def normalization(request):
+def normalization():
     for sm in SUM:
-        HELPER = []
         for sq in SQR:
-            resultElement = int(sm)-int(sq)
-            sqrtSqr = sqrt(sq)
-            sqrtElement = sqrt(resultElement)
-            result = sqrtSqr/sqrtElement
-            HELPER.append(result)
-        NORMAL.append(HELPER)
+            HELPER = []
+            for el in sq:
+                resultElement = int(sm)-int(el)
+                sqrtSqr = sqrt(el)
+                sqrtElement = sqrt(resultElement)
+                result = sqrtSqr/sqrtElement
+                HELPER.append(result)
+            NORMAL.append(HELPER)
     return True
 
-def normalizationTerbobot(request):
+def normalizationTerbobot():
     bobots = Bobot.objects.all()
     for bobot in bobots:
         BOBOT.append(bobot.value)
@@ -55,7 +62,7 @@ def normalizationTerbobot(request):
         HELPER = []
         INDEX = 0
         for el in nor:
-            result = BOBOT[INDEX]*el
+            result = float(BOBOT[INDEX].real)*float(el.real)
             HELPER.append(result) 
             INDEX += 1
         NORMAL_TERBOBOT.append(HELPER)
