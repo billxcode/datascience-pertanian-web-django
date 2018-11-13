@@ -22,7 +22,10 @@ def index(request):
             if normalization()==True:
                 if normalizationTerbobot()==True:
                     if preferensi()==True:
-                        return HttpResponse(PREFERENSI)
+                        context = {
+                            'preferensi' : PREFERENSI
+                        }
+                        return render(request, 'graph/result.html', context) 
     return HttpResponse("failed")
 
 def kuadratElement():
@@ -44,16 +47,17 @@ def sumRow():
     return True
 
 def normalization():
-    for sm in SUM:
-        for sq in SQR:
-            HELPER = []
-            for el in sq:
-                resultElement = int(sm)-int(el)
-                sqrtSqr = sqrt(el)
-                sqrtElement = sqrt(resultElement)
-                result = sqrtSqr/sqrtElement
-                HELPER.append(result)
-            NORMAL.append(HELPER)
+    INDEX = 0 
+    for sq in SQR:
+        HELPER = []
+        for el in sq:
+            resultElement = int(SUM[INDEX])-int(el)
+            sqrtSqr = sqrt(el)
+            sqrtElement = sqrt(resultElement)
+            result = sqrtSqr/sqrtElement
+            HELPER.append(result)
+        NORMAL.append(HELPER)
+        INDEX += 1
     return True
 
 def normalizationTerbobot():
