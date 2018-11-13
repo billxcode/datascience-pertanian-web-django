@@ -14,13 +14,15 @@ SUM = []
 NORMAL = []
 NORMAL_TERBOBOT = []
 BOBOT = []
+PREFERENSI = []
 
 def index(request):
     if kuadratElement()==True:
         if sumRow()==True:
             if normalization()==True:
                 if normalizationTerbobot()==True:
-                    return HttpResponse(NORMAL_TERBOBOT)
+                    if preferensi()==True:
+                        return HttpResponse(PREFERENSI)
     return HttpResponse("failed")
 
 def kuadratElement():
@@ -68,7 +70,18 @@ def normalizationTerbobot():
         NORMAL_TERBOBOT.append(HELPER)
     return True
         
-
+def preferensi():
+    for terbobot in NORMAL_TERBOBOT:
+        HELPER = 0
+        MAIN_KRITERIA = 0
+        INDEX = 0
+        for el in terbobot:
+            HELPER += el 
+            if INDEX==1:
+                MAIN_KRITERIA = el 
+            INDEX +=1
+        PREFERENSI.append(HELPER-(MAIN_KRITERIA*2))
+    return True
 
         
 
