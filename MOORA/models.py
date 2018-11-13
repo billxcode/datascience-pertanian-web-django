@@ -24,6 +24,6 @@ class Kriteria(models.Model):
 
 class Bobot(models.Model):
     value = models.DecimalField(max_digits=10, decimal_places=2)
-    kriteria = models.ForeignKey(Kriteria, on_delete=models.CASCADE)
+    name_kriteria = models.ForeignKey(NameKriteria, default=None, on_delete=models.CASCADE)
     def __str__(self):
         return str(self.value)
