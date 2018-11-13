@@ -25,5 +25,6 @@ admin.site.index_title = "Dashboard Data Analytics Pertanian"
 urlpatterns = [
     url(r'^admin/', admin.site.urls),
     url('moora/', include('MOORA.urls')),
+    url('statistic/', include('statistic.urls')),
     url(r'^$', views.index, name='homepage'),
 ]
