@@ -9,45 +9,39 @@ from cmath import sqrt
 
 # Create your views here.
 
-SQR = []
-SUM = []
-NORMAL = []
-NORMAL_TERBOBOT = []
-BOBOT = []
-PREFERENSI = []
+JUMLAH = 0
 
 def index(request):
-    if kuadratElement()==True:
-        if sumRow()==True:
-            if normalization()==True:
-                if normalizationTerbobot()==True:
-                    if preferensi()==True:
-                        context = {
-                            'preferensi' : PREFERENSI
-                        }
-                        return render(request, 'graph/result.html', context) 
-    return HttpResponse("failed")
+    BOBOT = []
+    SQR = kuadratElement()
+    SUM = sumRow(SQR)
+    NORMAL = normalization(SQR, SUM)
+    NORMAL_TERBOBOT = normalizationTerbobot(BOBOT, NORMAL)
+    PREFERENSI = preferensi(NORMAL_TERBOBOT)
+    return render(request, 'graph/result.html', {'preferensi':PREFERENSI})
 
 def kuadratElement():
-    kriterias = Kriteria.objects.all()
     tanamans = Tanaman.objects.all()
+    SQR = []
     for t in tanamans:
         HELPER = []
         for k in t.kriteria_set.all():
             HELPER.append(int(k.value)**2)
         SQR.append(HELPER)
-    return True
+    return SQR
 
-def sumRow():
+def sumRow(SQR):
+    SUM = []
     for s in SQR:
         helper = 0
         for e in s:
             helper += e 
         SUM.append(helper)
-    return True
+    return SUM
 
-def normalization():
-    INDEX = 0 
+def normalization(SQR, SUM):
+    INDEX = 0
+    NORMAL = [] 
     for sq in SQR:
         HELPER = []
         for el in sq:
@@ -58,9 +52,10 @@ def normalization():
             HELPER.append(result)
         NORMAL.append(HELPER)
         INDEX += 1
-    return True
+    return NORMAL 
 
-def normalizationTerbobot():
+def normalizationTerbobot(BOBOT, NORMAL):
+    NORMAL_TERBOBOT = []
     bobots = Bobot.objects.all()
     for bobot in bobots:
         BOBOT.append(bobot.value)
@@ -72,9 +67,10 @@ def normalizationTerbobot():
             HELPER.append(result) 
             INDEX += 1
         NORMAL_TERBOBOT.append(HELPER)
-    return True
+    return NORMAL_TERBOBOT
         
-def preferensi():
+def preferensi(NORMAL_TERBOBOT):
+    PREFERENSI = []
     for terbobot in NORMAL_TERBOBOT:
         HELPER = 0
         MAIN_KRITERIA = 0
@@ -85,7 +81,7 @@ def preferensi():
                 MAIN_KRITERIA = el 
             INDEX +=1
         PREFERENSI.append(HELPER-(MAIN_KRITERIA*2))
-    return True
+    return PREFERENSI
 
         
 
