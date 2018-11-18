@@ -20,9 +20,9 @@ def index(request):
     tanamans = Tanaman.objects.all()
     context = {
         'tanamans' : tanamans,
-        'preferensi' : list(PREFERENSI)
+        'preferensi' : list(RATIO)
     }
-    return render(request, 'graph/json.html', { 'preferensi' : RATIO})
+    # return render(request, 'graph/json.html', { 'preferensi' : RATIO})
     return render(request, 'graph/result.html', context)
 
 def defineMatrix():
@@ -89,10 +89,9 @@ def priceQualityRatio(PREFERENSI):
     index = 0
     HASIL = []
     for i in kriterias:
-        # helper = PREFERENSI[index]/i
-        helper = i
+        helper = PREFERENSI[index]/float(i.value)
         index += 1
-        HASIL.append(helper)
+        HASIL.append(float(helper.real))
     return HASIL
 
 
