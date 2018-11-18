@@ -12,81 +12,90 @@ from cmath import sqrt
 JUMLAH = 0
 
 def index(request):
-    BOBOT = []
-    SQR = kuadratElement()
-    SUM = sumRow(SQR)
-    NORMAL = normalization(SQR, SUM)
-    NORMAL_TERBOBOT = normalizationTerbobot(BOBOT, NORMAL)
-    PREFERENSI = preferensi(NORMAL_TERBOBOT)
+    MATRIX = defineMatrix()
+    SQR = kuadratElement(MATRIX)
+    SUM = sumRow(SQR, MATRIX)
+    PREFERENSI = preferensi(SUM)
+    RATIO = priceQualityRatio(PREFERENSI)
     tanamans = Tanaman.objects.all()
     context = {
         'tanamans' : tanamans,
         'preferensi' : list(PREFERENSI)
     }
+    return render(request, 'graph/json.html', { 'preferensi' : RATIO})
     return render(request, 'graph/result.html', context)
 
-def kuadratElement():
+def defineMatrix():
+    FULLMATRIX = []
     tanamans = Tanaman.objects.all()
-    SQR = []
     for t in tanamans:
-        HELPER = []
+        MATRIX = []
         for k in t.kriteria_set.all():
-            HELPER.append(int(k.value)**2)
+            MATRIX.append(int(k.value))
+        FULLMATRIX.append(MATRIX)
+    return FULLMATRIX
+
+
+def kuadratElement(MATRIX):
+    SQR = []
+    for t in MATRIX:
+        HELPER = []
+        for k in t:
+            HELPER.append(int(k)**2)
         SQR.append(HELPER)
-    return SQR
+    return SQR 
 
-def sumRow(SQR):
+# ratio system
+def sumRow(SQR, MATRIX):
     SUM = []
-    for s in SQR:
+    panjang_baris = list(range(len(SQR[0])))
+    panjang_kolom = list(range(len(SQR)))
+    for s in panjang_baris:
         helper = 0
-        for e in s:
-            helper += e 
+        for e in panjang_kolom:
+            helper += SQR[e][s]
+        helper = sqrt(helper)
         SUM.append(helper)
-    return SUM
-
-def normalization(SQR, SUM):
+    
     INDEX = 0
     NORMAL = [] 
-    for sq in SQR:
+    for sq in list(range(len(MATRIX))):
         HELPER = []
-        for el in sq:
-            resultElement = int(SUM[INDEX])-int(el)
-            sqrtSqr = sqrt(el)
-            sqrtElement = sqrt(resultElement)
-            result = sqrtSqr/sqrtElement
+        INDEX += 1
+        for el in list(range(len(MATRIX[0]))):
+            result = MATRIX[sq][el]/SUM[el]
             HELPER.append(result)
         NORMAL.append(HELPER)
-        INDEX += 1
-    return NORMAL 
-
-def normalizationTerbobot(BOBOT, NORMAL):
-    NORMAL_TERBOBOT = []
-    bobots = Bobot.objects.all()
-    for bobot in bobots:
-        BOBOT.append(bobot.value)
-    for nor in NORMAL:
-        HELPER = []
-        INDEX = 0
-        for el in nor:
-            result = float(BOBOT[INDEX].real)*float(el.real)
-            HELPER.append(result) 
-            INDEX += 1
-        NORMAL_TERBOBOT.append(HELPER)
-    return NORMAL_TERBOBOT
-        
-def preferensi(NORMAL_TERBOBOT):
+   
+    return NORMAL
+ 
+def preferensi(NORMAL):
     PREFERENSI = []
-    for terbobot in NORMAL_TERBOBOT:
+    for terbobot in NORMAL:
         HELPER = 0
         MAIN_KRITERIA = 0
         INDEX = 0
         for el in terbobot:
             HELPER += el 
-            if INDEX==1:
+            if INDEX==0:
                 MAIN_KRITERIA = el 
             INDEX +=1
-        PREFERENSI.append(HELPER-(MAIN_KRITERIA*2))
+        HASIL = HELPER-(MAIN_KRITERIA.real*2)
+        PREFERENSI.append(HASIL.real)
     return PREFERENSI
+
+def priceQualityRatio(PREFERENSI):
+    kriterias = Kriteria.objects.filter(name_kriteria_id=4)
+    index = 0
+    HASIL = []
+    for i in kriterias:
+        # helper = PREFERENSI[index]/i
+        helper = i
+        index += 1
+        HASIL.append(helper)
+    return HASIL
+
+
 
         
 

@@ -55,7 +55,7 @@
             var options = {
                 title: 'Scatter Chart',
                 hAxis: { title: 'Tanaman', minValue: 0, maxValue: 15 },
-                vAxis: { title: 'Preferensi', minValue: 0, maxValue: 15 },
+                vAxis: { title: 'Preferensi', minValue: 0, maxValue: 3 },
                 legend: 'none'
             };
 
@@ -72,11 +72,12 @@
     function drawTable() {
         var data = new google.visualization.DataTable();
         data.addColumn('string', 'Tanaman');
+        data.addColumn('string', 'Area');
         data.addColumn('number', 'Preferensi');
         data.addRows([
             {% load index %}
             {% for tnm in tanamans %}
-                ['{{ tnm.name }}', {{ preferensi|index:forloop.counter0 }} ],
+                ['{{ tnm.name }}', '{{ tnm.name_area }}', {{ preferensi|index:forloop.counter0 }} ],
             {% endfor %} 
         ]);
 
