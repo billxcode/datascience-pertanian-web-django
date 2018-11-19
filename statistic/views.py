@@ -4,8 +4,9 @@ from __future__ import unicode_literals
 from django.shortcuts import render
 from rest_framework import serializers
 from django.http import HttpResponse, JsonResponse
-from MOORA.models import Kriteria, Bobot, Tanaman, NameKriteria
+from MOORA.models import Kriteria, Bobot, Tanaman, NameKriteria, Preferensi
 from cmath import sqrt
+from decimal import Decimal
 
 # Create your views here.
 
@@ -18,11 +19,12 @@ def index(request):
     PREFERENSI = preferensi(SUM)
     RATIO = priceQualityRatio(PREFERENSI)
     tanamans = Tanaman.objects.all()
+    pref = Preferensi.objects.order_by('-value').all()
     context = {
         'tanamans' : tanamans,
-        'preferensi' : list(RATIO)
+        'preferensi' : list(pref)
     }
-    # return render(request, 'graph/json.html', { 'preferensi' : RATIO})
+    # return render(request, 'graph/json.html', { 'preferensi' : list(RATIO)})
     return render(request, 'graph/result.html', context)
 
 def defineMatrix():
@@ -86,16 +88,19 @@ def preferensi(NORMAL):
 
 def priceQualityRatio(PREFERENSI):
     kriterias = Kriteria.objects.filter(name_kriteria_id=4)
+    tanamans = Tanaman.objects.all()
+    Preferensi.objects.all().delete()
     index = 0
     HASIL = []
     for i in kriterias:
         helper = PREFERENSI[index]/float(i.value)
+        pref = Preferensi()
+        pref.tanaman_id = tanamans[index].id
+        pref.value = round(Decimal(helper), 7)
+        pref.save()
         index += 1
-        HASIL.append(float(helper.real))
+        HASIL.append(pref.value)
     return HASIL
 
-
-
-        
 
 

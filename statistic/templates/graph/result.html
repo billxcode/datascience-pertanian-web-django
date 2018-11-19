@@ -21,8 +21,8 @@
             data.addColumn('number', 'Slices');
             data.addRows([
                 {% load index %}
-                {% for tnm in tanamans %}
-                    ['{{ tnm.name }}', {{ preferensi|index:forloop.counter0 }} ],
+                {% for tnm in preferensi %}
+                    ['{{ tnm.tanaman }}', {{ tnm.value }} ],
                 {% endfor %} 
             ]);
 
@@ -47,8 +47,8 @@
             var data = google.visualization.arrayToDataTable([
                 ['Tanaman', 'Preferensi'],
                 {% load index %}
-                {% for tnm in tanamans %}
-                    ['{{ tnm.name }}', {{ preferensi|index:forloop.counter0 }} ],
+                {% for tnm in preferensi %}
+                    ['{{ tnm.tanaman }}', {{ tnm.value }} ],
                 {% endfor %} 
             ]);
 
@@ -76,8 +76,8 @@
         data.addColumn('string', 'Preferensi');
         data.addRows([
             {% load index %}
-            {% for tnm in tanamans %}
-                ['{{ tnm.name }}', '{{ tnm.name_area }}', '{{ preferensi|index:forloop.counter0 }}' ],
+            {% for tnm in preferensi %}
+                ['{{ tnm.tanaman }}', '{{ tnm.tanaman.name_area }}', '{{ tnm.value }}' ],
             {% endfor %} 
         ]);
 
@@ -95,8 +95,8 @@
         var data = google.visualization.arrayToDataTable([
             ['ID', 'Preferensi', 'Number', 'Name'],
             {% load index %}
-            {% for tnm in tanamans %}
-                ['{{ tnm.name }}', {{ preferensi|index:forloop.counter0 }}, {{ forloop.counter }}, '{{ tnm.name }}' ],
+            {% for tnm in preferensi %}
+                ['{{ tnm.tanaman }}', {{ tnm.value }}, {{ forloop.counter }}, '{{ tnm.tanaman }}' ],
             {% endfor %} 
         ]);
 
@@ -120,8 +120,8 @@
         var data = google.visualization.arrayToDataTable([
             ['Tanaman', 'Preferensi'],
             {% load index %}
-            {% for tnm in tanamans %}
-                ['{{ tnm.name }}', {{ preferensi|index:forloop.counter0 }}],
+            {% for tnm in preferensi %}
+                ['{{ tnm.tanaman }}', {{ tnm.value }}],
             {% endfor %} 
         ]);
 
@@ -144,8 +144,8 @@
         var data = google.visualization.arrayToDataTable([
             ['Tanaman', 'Preferensi'],
             {% load index %}
-            {% for tnm in tanamans %}
-                ['{{ tnm.name }}', {{ preferensi|index:forloop.counter0 }}],
+            {% for tnm in preferensi %}
+                ['{{ tnm.tanaman }}', {{ tnm.value }}],
             {% endfor %}
         ]);
 
@@ -190,6 +190,7 @@
         </div>
     </div>
 </section>
+
 <section class="section">
     <div class="container">
              
@@ -221,7 +222,18 @@
             </div>
     </div>
 </section>
-      
+<section class="hero is-bold">
+    <div class="hero-body">
+        <div class="container">
+            <h1 class="title">
+                Hasil Rekomendasi
+            </h1>
+            <h2 class="subtitle">
+                Data di atas menyebutkan bahwa tanaman yang optimal untuk di tanam di periode selanjutnya berdasarkan ratio hasil panen adalah <strong><i>{{ preferensi.0.tanaman }}</i> </strong>
+            </h2>
+        </div>
+    </div>
+</section>
 
 
 {% endblock %}

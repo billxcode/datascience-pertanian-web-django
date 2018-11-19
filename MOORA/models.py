@@ -32,3 +32,10 @@ class Bobot(models.Model):
     name_kriteria = models.ForeignKey(NameKriteria, default=None, on_delete=models.CASCADE)
     def __str__(self):
         return str(self.value)
+
+class Preferensi(models.Model):
+    tanaman = models.ForeignKey(Tanaman, on_delete=models.CASCADE)
+    value = models.CharField(max_length=255)
+    pub_date = models.DateTimeField(auto_now=True)
+    def __str__(self):
+        return str(self.tanaman)
