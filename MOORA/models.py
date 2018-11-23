@@ -39,3 +39,9 @@ class Preferensi(models.Model):
     pub_date = models.DateTimeField(auto_now=True)
     def __str__(self):
         return str(self.tanaman)
+
+class RatioQuality(models.Model):
+    tanaman = models.ForeignKey(Tanaman, default=None, null=True, on_delete=models.CASCADE) 
+    value = models.DecimalField(max_digits=10, decimal_places=2)
+    def __str__(self):
+        return str(self.value)

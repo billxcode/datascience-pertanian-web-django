@@ -4,13 +4,11 @@ from __future__ import unicode_literals
 from django.shortcuts import render
 from rest_framework import serializers
 from django.http import HttpResponse, JsonResponse
-from MOORA.models import Kriteria, Bobot, Tanaman, NameKriteria, Preferensi
+from MOORA.models import Kriteria, Bobot, Tanaman, NameKriteria, Preferensi, RatioQuality
 from cmath import sqrt
 from decimal import Decimal
 
 # Create your views here.
-
-JUMLAH = 0
 
 def index(request):
     MATRIX = defineMatrix()
@@ -18,15 +16,13 @@ def index(request):
     SUM = sumRow(SQR, MATRIX)
     PREFERENSI = preferensi(SUM)
     RATIO = priceQualityRatio(PREFERENSI)
-    tanamans = Tanaman.objects.all()
     pref = Preferensi.objects.order_by('-value').all()
     context = {
-        'tanamans' : tanamans,
         'preferensi' : list(pref)
     }
-    # return render(request, 'graph/json.html', { 'preferensi' : list(RATIO)})
     return render(request, 'graph/result.html', context)
 
+# create matrix from all data
 def defineMatrix():
     FULLMATRIX = []
     tanamans = Tanaman.objects.all()
@@ -37,7 +33,7 @@ def defineMatrix():
         FULLMATRIX.append(MATRIX)
     return FULLMATRIX
 
-
+# sqr all element
 def kuadratElement(MATRIX):
     SQR = []
     for t in MATRIX:
@@ -70,7 +66,8 @@ def sumRow(SQR, MATRIX):
         NORMAL.append(HELPER)
    
     return NORMAL
- 
+
+# calculate preferensi 
 def preferensi(NORMAL):
     PREFERENSI = []
     for terbobot in NORMAL:
@@ -86,13 +83,16 @@ def preferensi(NORMAL):
         PREFERENSI.append(HASIL.real)
     return PREFERENSI
 
+
+# price quality ratio by hasil panen
 def priceQualityRatio(PREFERENSI):
-    kriterias = Kriteria.objects.filter(name_kriteria_id=4)
+    kriterias = Kriteria.objects.filter(name_kriteria_id=3)
+    ratio = RatioQuality.objects.all()
     tanamans = Tanaman.objects.all()
     Preferensi.objects.all().delete()
     index = 0
     HASIL = []
-    for i in kriterias:
+    for i in ratio:
         helper = PREFERENSI[index]/float(i.value)
         pref = Preferensi()
         pref.tanaman_id = tanamans[index].id

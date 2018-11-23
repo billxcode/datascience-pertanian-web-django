@@ -22,7 +22,7 @@
             data.addRows([
                 {% load index %}
                 {% for tnm in preferensi %}
-                    ['{{ tnm.tanaman }}', {{ tnm.value }} ],
+                    ['{{ tnm.tanaman }}', ({{tnm.value}}<0)?0:{{tnm.value}}],
                 {% endfor %} 
             ]);
 
@@ -48,7 +48,12 @@
                 ['Tanaman', 'Preferensi'],
                 {% load index %}
                 {% for tnm in preferensi %}
-                    ['{{ tnm.tanaman }}', {{ tnm.value }} ],
+                    ['{{ tnm.tanaman }}', 
+                    {% if tnm.value < 0 %}
+                        0
+                    {% else %}
+                        {{ tnm.value }} 
+                    {% endif %} ],
                 {% endfor %} 
             ]);
 
@@ -77,7 +82,12 @@
         data.addRows([
             {% load index %}
             {% for tnm in preferensi %}
-                ['{{ tnm.tanaman }}', '{{ tnm.tanaman.name_area }}', '{{ tnm.value }}' ],
+                ['{{ tnm.tanaman }}', '{{ tnm.tanaman.name_area }}', 
+                    {% if tnm.value < 0 %}
+                        0
+                    {% else %}
+                        '{{ tnm.value }}'
+                    {% endif %} ],
             {% endfor %} 
         ]);
 
@@ -96,7 +106,12 @@
             ['ID', 'Preferensi', 'Number', 'Name'],
             {% load index %}
             {% for tnm in preferensi %}
-                ['{{ tnm.tanaman }}', {{ tnm.value }}, {{ forloop.counter }}, '{{ tnm.tanaman }}' ],
+                ['{{ tnm.tanaman }}', 
+                    {% if tnm.value < 0 %}
+                        0
+                    {% else %}
+                        {{ tnm.value }} 
+                    {% endif %}, {{ forloop.counter }}, '{{ tnm.tanaman }}' ],
             {% endfor %} 
         ]);
 
@@ -121,7 +136,12 @@
             ['Tanaman', 'Preferensi'],
             {% load index %}
             {% for tnm in preferensi %}
-                ['{{ tnm.tanaman }}', {{ tnm.value }}],
+                ['{{ tnm.tanaman }}', 
+                    {% if tnm.value < 0 %}
+                        0
+                    {% else %}
+                        {{ tnm.value }} 
+                    {% endif %}],
             {% endfor %} 
         ]);
 
@@ -145,7 +165,12 @@
             ['Tanaman', 'Preferensi'],
             {% load index %}
             {% for tnm in preferensi %}
-                ['{{ tnm.tanaman }}', {{ tnm.value }}],
+                ['{{ tnm.tanaman }}', 
+                    {% if tnm.value < 0 %}
+                        0
+                    {% else %}
+                        {{ tnm.value }} 
+                    {% endif %}],
             {% endfor %}
         ]);
 
@@ -186,6 +211,7 @@
             </h1>
             <h2 class="subtitle">
                 Process by Moora Algoritm
+                
             </h2>
         </div>
     </div>
@@ -202,11 +228,7 @@
                     <div id="pie_div"></div>
                 </div>
             </div>
-            {% comment %} <div class="columns">
-                <div class="column">
-                    <div id="gauge_div"></div>
-                </div>
-            </div> {% endcomment %}
+
             <div class="columns">
                 <div class="column">
                     <div id="scatter_div"></div>
