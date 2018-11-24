@@ -44,4 +44,4 @@ class RatioQuality(models.Model):
     tanaman = models.ForeignKey(Tanaman, default=None, null=True, on_delete=models.CASCADE) 
     value = models.DecimalField(max_digits=10, decimal_places=2)
     def __str__(self):
-        return str(self.value)
+        return str(self.tanaman)

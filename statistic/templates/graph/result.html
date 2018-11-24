@@ -211,7 +211,38 @@
             </h1>
             <h2 class="subtitle">
                 Process by Moora Algoritm
-                
+<form>
+<div class="field">
+  <label class="label">Hitung Pertanian Anda</label>
+  <div class="control">
+    <div class="columns">
+        <div class="column">
+            <div class="select">
+                <select name="tanaman">
+                    <option>Select dropdown</option>
+                    {% for tanaman in tanamans %}
+                        <option value="{{ tanaman.id }}">{{ tanaman.name }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+        </div>
+        <div class="column">
+            <input class="input" name="pupuk" type="text" placeholder="Pupuk/kg">
+        </div> 
+        <div class="column">
+            <input class="input" name="lahan" type="text" placeholder="Luas Lahan">
+        </div>
+        <div class="column">
+            <input class="input" name="suhu" type="text" placeholder="Suhu">
+        </div>
+        <div class="column">
+            <button class="button is-link">Submit</button>
+        </div>
+    </div>
+    
+  </div>
+</div>
+</form>
             </h2>
         </div>
     </div>

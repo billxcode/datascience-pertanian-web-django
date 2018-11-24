@@ -11,19 +11,27 @@ from decimal import Decimal
 # Create your views here.
 
 def index(request):
-    MATRIX = defineMatrix()
+    TANAMAN_ID = 0
+    TANAMAN_USER = 0
+    if 'pupuk' in request.GET:
+        TANAMAN_USER = [float(request.GET['pupuk']), float(request.GET['lahan']), float(request.GET['suhu'])]
+        TANAMAN_ID = int(request.GET['tanaman'])
+    MATRIX = defineMatrix(TANAMAN_USER)
     SQR = kuadratElement(MATRIX)
     SUM = sumRow(SQR, MATRIX)
     PREFERENSI = preferensi(SUM)
-    RATIO = priceQualityRatio(PREFERENSI)
+    # return render(request, 'graph/json.html', {'preferensi': PREFERENSI})
+    RATIO = priceQualityRatio(PREFERENSI, TANAMAN_ID)
     pref = Preferensi.objects.order_by('-value').all()
+    tanamans = Tanaman.objects.all()
     context = {
+        'tanamans' : list(tanamans), 
         'preferensi' : list(pref)
     }
     return render(request, 'graph/result.html', context)
 
 # create matrix from all data
-def defineMatrix():
+def defineMatrix(TANAMAN_USER):
     FULLMATRIX = []
     tanamans = Tanaman.objects.all()
     for t in tanamans:
@@ -31,6 +39,8 @@ def defineMatrix():
         for k in t.kriteria_set.all():
             MATRIX.append(int(k.value))
         FULLMATRIX.append(MATRIX)
+    if TANAMAN_USER!=0:
+        FULLMATRIX.append(TANAMAN_USER)
     return FULLMATRIX
 
 # sqr all element
@@ -76,7 +86,7 @@ def preferensi(NORMAL):
         INDEX = 0
         for el in terbobot:
             HELPER += el 
-            if INDEX==0:
+            if INDEX==2:
                 MAIN_KRITERIA = el 
             INDEX +=1
         HASIL = HELPER-(MAIN_KRITERIA.real*2)
@@ -85,17 +95,28 @@ def preferensi(NORMAL):
 
 
 # price quality ratio by hasil panen
-def priceQualityRatio(PREFERENSI):
-    kriterias = Kriteria.objects.filter(name_kriteria_id=3)
+def priceQualityRatio(PREFERENSI, TANAMAN_ID):
     ratio = RatioQuality.objects.all()
+    if TANAMAN_ID!=0:
+        ratio_user = RatioQuality.objects.get(tanaman=TANAMAN_ID)
     tanamans = Tanaman.objects.all()
     Preferensi.objects.all().delete()
     index = 0
     HASIL = []
-    for i in ratio:
-        helper = PREFERENSI[index]/float(i.value)
+    jumlah_array_preferensi = len(PREFERENSI)
+    for i in range(jumlah_array_preferensi):
         pref = Preferensi()
-        pref.tanaman_id = tanamans[index].id
+        helper = 0
+        if TANAMAN_ID!=0:
+            if i==(jumlah_array_preferensi-1):
+                helper = PREFERENSI[i]/float(ratio_user.value)
+                pref.tanaman_id = TANAMAN_ID
+            else:
+                helper = PREFERENSI[i]/float(ratio[i].value)
+                pref.tanaman_id = tanamans[index].id
+        else:
+           helper = PREFERENSI[i]/float(ratio[i].value)
+           pref.tanaman_id = tanamans[index].id
         pref.value = round(Decimal(helper), 7)
         pref.save()
         index += 1
